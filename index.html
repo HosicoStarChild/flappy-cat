@@ -156,8 +156,8 @@
             width: 40,
             height: 40,
             velocity: 0,
-            gravity: 0.5,
-            flapPower: -10
+            gravity: 0.45,
+            flapPower: -9.5
         };
 
         let pipes = [];
@@ -318,11 +318,12 @@
             for (let i = pipes.length - 1; i >= 0; i--) {
                 pipes[i].x -= gameSpeed;
 
-                // Collision detection
-                const catLeft = cat.x - cat.width / 2;
-                const catRight = cat.x + cat.width / 2;
-                const catTop = cat.y - cat.width / 2;
-                const catBottom = cat.y + cat.width / 2;
+                // Collision detection with forgiveness padding
+                const padding = 8;
+                const catLeft = cat.x - cat.width / 2 + padding;
+                const catRight = cat.x + cat.width / 2 - padding;
+                const catTop = cat.y - cat.width / 2 + padding;
+                const catBottom = cat.y + cat.width / 2 - padding;
 
                 if (catRight > pipes[i].x && catLeft < pipes[i].x + pipeWidth) {
                     if (catTop < pipes[i].gapStart || catBottom > pipes[i].gapEnd) {
@@ -336,9 +337,9 @@
                     pipes[i].scored = true;
                     score++;
                     scoreDisplay.textContent = score;
-                    difficulty = Math.min(1 + score * 0.05, 2);
-                    gameSpeed = 6 + difficulty;
-                    pipeGap = Math.max(100, 120 - score * 2);
+                    difficulty = Math.min(1 + score * 0.04, 2);
+                    gameSpeed = 6 + difficulty * 1.5;
+                    pipeGap = Math.max(110, 130 - score * 1.2);
                     createParticles(canvas.width / 2, canvas.height / 2);
                 }
 
